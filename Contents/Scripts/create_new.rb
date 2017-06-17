@@ -5,15 +5,11 @@
 
 require 'fileutils'
 
-def main
+begin
   path = ARGV.fetch(0)
   return if path.nil?
   FileUtils.mkdir_p(File.dirname(path))
   FileUtils.touch(path)
   exec('open', path)
-end
-
-begin
-  main
 rescue Interrupt
 end

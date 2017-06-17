@@ -13,17 +13,10 @@ module Keep
       subdir, query = File.split(query)
       dir = File.join(dir, subdir)
     end
-    query.empty? ? list_recent_notes(dir) : exec_query(query, dir)
+    query.empty? ? list_notes_by_atime(dir) : exec_query(query, dir)
   end
 
-  def self.query_to_path(query)
-    dirname, filename = File.split(query)
-    ext = File.extname(filename).empty? ? config.ext : ''
-    path = File.join(dirname, "#{filename}#{ext}").sub(%r{^[./]+}, '')
-    [File.join(config.home, path), path]
-  end
-
-  def self.list_recent_notes(dir)
+  def self.list_notes_by_atime(dir)
     files = SortedSet.new()
     Find.find(dir) do |path|
       next if !File.file?(path) || File.basename(path)[0] == '.'
@@ -34,6 +27,19 @@ module Keep
       atime, path = file
       { 'title' => path_to_title(path), 'path'  => path }
     end
+  end
+
+  def self.list_tags(dir)
+    path_items = mdfind_by_any('@', dir)
+    path_items.flat_map {|pi| extract_tags(pi['path'])}.uniq.sort
+  end
+
+  def self.extract_tags(path)
+    open(path) do |f|
+      f.grep(/(^|\s)@\S+/) do |line|
+        line.scan(/(?<=^|\s)@\S+/)
+      end
+    end.flatten
   end
 
   def self.exec_query(query, dir)
@@ -59,6 +65,14 @@ module Keep
         { 'title' => path_to_title(path), 'path' => path }
       end
     end
+  end
+
+  def self.query_to_path(query)
+    return [nil, nil] if query.empty?
+    dirname, filename = File.split(query)
+    ext = File.extname(filename).empty? ? config.ext : ''
+    path = File.join(dirname, "#{filename}#{ext}").sub(%r{^[./]+}, '')
+    [File.join(config.home, path), path]
   end
 
   def self.path_to_title(path)
