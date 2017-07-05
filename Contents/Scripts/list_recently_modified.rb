@@ -7,7 +7,7 @@ require 'json'
 require_relative 'keep'
 
 begin
-  paths = `find #{Keep.config.home} -type f -not -name '.*' -mtime -2w`
+  paths = `find #{Keep.config.home} -type f -not -name '.*' -mtime -4w`
   items = paths.each_line.map do |path|
     path.strip!
     {

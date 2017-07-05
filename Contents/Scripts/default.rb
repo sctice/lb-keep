@@ -32,7 +32,7 @@ def menu
       'icon' => 'folder',
     },
     {
-      'title' => 'Recently modified notes (2 weeks)',
+      'title' => 'Recently modified notes (4 weeks)',
       'action' => 'list_recently_modified.rb',
       'actionReturnsItems' => true,
       'icon' => 'folder',
