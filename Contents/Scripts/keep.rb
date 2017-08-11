@@ -36,7 +36,7 @@ module Keep
 
   def self.extract_tags(path)
     open(path) do |f|
-      f.grep(/(^|\s)@\S+/) do |line|
+      f.grep(/^tags.*@\S+/) do |line|
         line.scan(/(?<=^|\s)@\S+/)
       end
     end.flatten
