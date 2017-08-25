@@ -3,18 +3,13 @@
 # LaunchBar Action Script
 #
 
+require 'date'
 require 'json'
 require_relative 'keep'
 
 begin
-  paths = `find #{Keep.config.home} -type f -not -name '.*' -mtime -4w`
-  items = paths.each_line.map do |path|
-    path.strip!
-    {
-      'title' => Keep.path_to_title(path),
-      'path' => path,
-    }
-  end
-  puts items.to_json
+  puts Keep.list_notes_by_atime(Keep.config.home, {
+    :cutoff => (Date.today << 1).to_time.to_i  # 1 month ago
+  }).to_json
 rescue Interrupt
 end
