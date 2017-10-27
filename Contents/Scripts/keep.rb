@@ -13,20 +13,20 @@ module Keep
       subdir, query = File.split(query)
       dir = File.join(dir, subdir)
     end
-    query.empty? ? list_notes_by_atime(dir) : exec_query(query, dir)
+    query.empty? ? list_notes_by_mtime(dir) : exec_query(query, dir)
   end
 
-  def self.list_notes_by_atime(dir, opts = {})
+  def self.list_notes_by_mtime(dir, opts = {})
     cutoff = opts.fetch(:cutoff, nil)
     files = SortedSet.new()
     Find.find(dir) do |path|
       next if !File.file?(path) || File.basename(path)[0] == '.'
-      atime = File.atime(path).to_i
-      next if !cutoff.nil? && atime < cutoff
-      files << [-atime, path]
+      mtime = File.mtime(path).to_i
+      next if !cutoff.nil? && mtime < cutoff
+      files << [-mtime, path]
     end
     files.map do |file|
-      atime, path = file
+      mtime, path = file
       { 'title' => path_to_title(path), 'path'  => path }
     end
   end

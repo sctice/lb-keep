@@ -7,6 +7,6 @@ require 'json'
 require_relative 'keep'
 
 begin
-  puts Keep.list_notes_by_atime(Keep.config.home).to_json
+  puts Keep.list_notes_by_mtime(Keep.config.home).to_json
 rescue Interrupt
 end
