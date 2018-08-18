@@ -11,7 +11,7 @@ def main
   query = ARGV.fetch(0, '').strip
   items = Keep.fetch_results(query)
   new_path, new_name = Keep.query_to_path(query)
-  if !new_name.nil? && items.find_index {|i| i['path'] == new_path}.nil?
+  if !new_name.nil? && items.find_index { |i| i['path'] == new_path }.nil?
     items << {
       'title' => "Create ‹#{new_name}›",
       'action' => 'create_new.rb',

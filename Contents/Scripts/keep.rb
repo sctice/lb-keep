@@ -33,7 +33,7 @@ module Keep
 
   def self.list_tags(dir)
     path_items = mdfind_by_any('@', dir)
-    path_items.flat_map {|pi| extract_tags(pi['path'])}.uniq.sort
+    path_items.flat_map { |pi| extract_tags(pi['path']) }.uniq.sort
   end
 
   def self.extract_tags(path)
@@ -46,8 +46,8 @@ module Keep
 
   def self.exec_query(query, dir)
     files = mdfind_by_name(query, dir)
-    skip = Set.new(files.map {|f| f['path']})
-    files += mdfind_by_any(query, dir).reject {|i| skip.include?(i['path'])}
+    skip = Set.new(files.map { |f| f['path'] })
+    files += mdfind_by_any(query, dir).reject { |i| skip.include?(i['path']) }
     files
   end
 
