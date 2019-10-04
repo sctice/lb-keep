@@ -26,14 +26,14 @@ end
 def menu
   puts [
     {
-      'title' => 'All notes',
-      'action' => 'list_all.rb',
+      'title' => 'Recently modified notes (4 weeks)',
+      'action' => 'list_recently_modified.rb',
       'actionReturnsItems' => true,
       'icon' => 'folder',
     },
     {
-      'title' => 'Recently modified notes (4 weeks)',
-      'action' => 'list_recently_modified.rb',
+      'title' => 'All notes',
+      'action' => 'list_all.rb',
       'actionReturnsItems' => true,
       'icon' => 'folder',
     },
@@ -43,7 +43,7 @@ def menu
       'actionReturnsItems' => true,
       'actionArgument' => '',
       'icon' => 'tag',
-    }
+    },
   ].to_json
 end
 
