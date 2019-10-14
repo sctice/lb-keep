@@ -20,7 +20,8 @@ module Keep
     cutoff = opts.fetch(:cutoff, nil)
     files = SortedSet.new()
     Find.find(dir) do |path|
-      next if !File.file?(path) || File.basename(path)[0] == '.'
+      Find.prune if File.basename(path)[0] == '.'
+      next if !File.file?(path)
       mtime = File.mtime(path).to_i
       next if !cutoff.nil? && mtime < cutoff
       files << [-mtime, path]
